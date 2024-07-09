@@ -1,0 +1,15 @@
+node_modules
+app/node_modules
+app/dist
+app/build
+postgresql
+# Keep environment variables out of version control
+.env
+
+app/.env
+app/.env.development.local
+app/.env.test.local
+app/.env.production.local
+app/.env.local
+
+

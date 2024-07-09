@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16.3
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: typeorm_user
+      POSTGRES_PASSWORD: testPasswd12JK9o
+      POSTGRES_DB: typeorm_db
+    volumes:
+      - ./postgresql:/var/lib/postgresql/data/
+
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "4141:4141"
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+      - /node_modules
+    command: pnpm run start:dev
+
