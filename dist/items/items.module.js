@@ -6,23 +6,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DatabaseModule = void 0;
+exports.ItemsModule = void 0;
 const common_1 = require("@nestjs/common");
+const items_service_1 = require("./items.service");
+const items_controller_1 = require("./items.controller");
 const typeorm_1 = require("@nestjs/typeorm");
-const config_1 = require("@nestjs/config");
-const database_config_1 = require("../configs/database.config");
-let DatabaseModule = class DatabaseModule {
+const item_entity_1 = require("./entities/item.entity");
+const typeorm_2 = require("typeorm");
+let ItemsModule = class ItemsModule {
 };
-exports.DatabaseModule = DatabaseModule;
-exports.DatabaseModule = DatabaseModule = __decorate([
+exports.ItemsModule = ItemsModule;
+exports.ItemsModule = ItemsModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            typeorm_1.TypeOrmModule.forRootAsync({
-                imports: [config_1.ConfigModule],
-                useFactory: database_config_1.getDatabaseConfig,
-                inject: [config_1.ConfigService],
-            }),
-        ],
+        imports: [typeorm_1.TypeOrmModule.forFeature([item_entity_1.Item])],
+        controllers: [items_controller_1.ItemsController],
+        providers: [items_service_1.ItemsService, typeorm_2.Repository],
     })
-], DatabaseModule);
-//# sourceMappingURL=database.module.js.map
+], ItemsModule);
+//# sourceMappingURL=items.module.js.map
