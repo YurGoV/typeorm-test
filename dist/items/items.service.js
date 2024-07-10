@@ -17,20 +17,37 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const item_entity_1 = require("./entities/item.entity");
 const typeorm_2 = require("@nestjs/typeorm");
+const listing_entity_1 = require("./entities/listing.entity");
+const tag_entity_1 = require("./entities/tag.entity");
 let ItemsService = class ItemsService {
     constructor(itemRepository, entityManager) {
         this.itemRepository = itemRepository;
         this.entityManager = entityManager;
     }
     async create(createItemDto) {
-        const item = new item_entity_1.Item(createItemDto);
+        const listing = new listing_entity_1.Listing({
+            ...createItemDto.listing,
+            rating: 0,
+        });
+        const tags = createItemDto.tags.map((createTagDto) => new tag_entity_1.Tag(createTagDto));
+        const item = new item_entity_1.Item({
+            ...createItemDto,
+            comments: [],
+            listing,
+            tags,
+        });
         return await this.entityManager.save(item);
     }
     async findAll() {
-        return await this.itemRepository.find();
+        return await this.itemRepository.find({
+            relations: { listing: true, comments: true, tags: true },
+        });
     }
     async findOne(id) {
-        return await this.itemRepository.findOneBy({ id });
+        return await this.itemRepository.findOne({
+            where: { id },
+            relations: { listing: true, comments: true, tags: true },
+        });
     }
     async update(id, updateItemDto) {
         const item = await this.itemRepository.findOneBy({ id });
