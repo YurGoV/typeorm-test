@@ -7,10 +7,11 @@ import { Repository } from 'typeorm';
 import { Listing } from './entities/listing.entity';
 import { Comment } from './entities/comment.entity';
 import { Tag } from './entities/tag.entity';
+import { ItemSubscriber } from './item.subscriber';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Item, Listing, Comment, Tag])],
   controllers: [ItemsController],
-  providers: [ItemsService, Repository],
+  providers: [ItemsService, Repository, ItemSubscriber],
 })
 export class ItemsModule {}
