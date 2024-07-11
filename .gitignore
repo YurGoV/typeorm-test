@@ -5,6 +5,7 @@ app/build
 postgresql
 # Keep environment variables out of version control
 .env
+dist
 
 app/.env
 app/.env.development.local
