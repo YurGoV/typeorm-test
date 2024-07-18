@@ -8,7 +8,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import { Listing } from './listing.entity';
-import { AbstractEntity } from 'src/database/abstract.entity';
+import { AbstractEntity } from '../../database/abstract.entity';
 import { Comment } from './comment.entity';
 import { Tag } from './tag.entity';
 

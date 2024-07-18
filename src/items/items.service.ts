@@ -13,7 +13,7 @@ export class ItemsService {
     @InjectRepository(Item)
     private readonly itemRepository: Repository<Item>,
     private readonly entityManager: EntityManager,
-  ) { }
+  ) {}
 
   async create(createItemDto: CreateItemDto) {
     // TODO: can do as in update (via Object.assign)? what is the difference?
@@ -56,21 +56,27 @@ export class ItemsService {
     //Object.assign(item, updateItemDto);
     //return this.itemRepository.save(item);
     await this.entityManager.transaction(async (entityManager) => {
-      const item = await this.entityManager.findOne(this.itemRepository.target, { where: { id } });
+      const item = await this.entityManager.findOne(
+        this.itemRepository.target,
+        { where: { id } },
+      );
       if (!item) {
         throw new NotFoundException(`Item with id ${id} not found`);
       }
 
       Object.assign(item, updateItemDto);
-      const tempResult = await entityManager.save(this.itemRepository.target, item);
-      console.log(tempResult, 'Temp result on update transaction')
+      const tempResult = await entityManager.save(
+        this.itemRepository.target,
+        item,
+      );
+      console.log(tempResult, 'Temp result on update transaction');
 
-      throw new Error()
+      throw new Error();
 
       const tagContent = `${Math.random()}`;
       const tag = new Tag({ content: tagContent });
-      await entityManager.save(tag)
-    })
+      await entityManager.save(tag);
+    });
   }
 
   async remove(id: number) {
